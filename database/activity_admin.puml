@@ -1,0 +1,30 @@
+@startuml Admin Activity Diagram
+
+start
+
+:Admin Login;
+
+if (Valid Credentials?) then (yes)
+  fork
+    :Manage Books;
+    :Add/Edit/Delete Books;
+    :Upload EPUB Files;
+  fork again
+    :Manage Authors;
+    :Add/Edit Authors;
+  fork again
+    :Manage Categories;
+    :Add/Edit Categories;
+  fork again
+    :View Statistics;
+    :View User Activity;
+    :Monitor Reviews;
+  end fork
+  :Logout;
+else (no)
+  :Show Error;
+endif
+
+stop
+
+@enduml

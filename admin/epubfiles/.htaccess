@@ -1,0 +1,25 @@
+Options +FollowSymLinks
+Order Allow,Deny
+Allow from all
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Content-Length, Accept-Encoding, Range"
+    Header set Access-Control-Expose-Headers "Content-Length, Content-Range, Accept-Ranges"
+</IfModule>
+
+<IfModule mod_mime.c>
+    AddType application/epub+zip .epub
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+<FilesMatch "\.epub$">
+    Header set Content-Type "application/epub+zip"
+    Header set Content-Disposition "inline"
+    Header set Accept-Ranges "bytes"
+</FilesMatch>

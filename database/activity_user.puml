@@ -1,0 +1,35 @@
+@startuml User Activity Diagram
+
+start
+
+if (Has Account?) then (yes)
+  :Login;
+else (no)
+  :Register;
+endif
+
+if (Valid Credentials?) then (yes)
+  fork
+    :Browse Books;
+    :Select Book;
+    :Read Book;
+    fork
+      :Add Bookmark;
+    fork again
+      :Save Progress;
+    end fork
+  fork again
+    :View Reading History;
+    :Resume Reading;
+  fork again
+    :Rate Books;
+    :Write Reviews;
+  end fork
+  :Logout;
+else (no)
+  :Show Error;
+endif
+
+stop
+
+@enduml

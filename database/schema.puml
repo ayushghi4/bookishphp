@@ -1,0 +1,92 @@
+@startuml Bookish Database Schema
+
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) <i>x</i>
+
+hide methods
+hide stereotypes
+
+table(tblusers) {
+  + primary_key(id): int
+  + UserId: varchar(100)
+  + FullName: varchar(120)
+  + EmailId: varchar(120)
+  + Password: varchar(120)
+  + Status: int
+  + RegDate: timestamp
+  + UpdationDate: timestamp
+}
+
+table(tblauthors) {
+  + primary_key(id): int
+  + AuthorName: varchar(159)
+  + creationDate: timestamp
+}
+
+table(tblcategory) {
+  + primary_key(id): int
+  + CategoryName: varchar(150)
+  + Status: int
+  + CreationDate: timestamp
+}
+
+table(tblbooks) {
+  + primary_key(id): int
+  + BookName: varchar(255)
+  + foreign_key(CatId): int
+  + foreign_key(AuthorId): int
+  + ISBNNumber: varchar(25)
+  + BookPrice: decimal(10,2)
+  + bookImage: varchar(250)
+  + epub_file_path: varchar(255)
+  + RegDate: timestamp
+}
+
+table(tblreadinghistory) {
+  + primary_key(id): int
+  + foreign_key(UserId): int
+  + foreign_key(BookId): int
+  + LastPage: varchar(255)
+  + ReadDate: timestamp
+  + Status: varchar(50)
+}
+
+table(tblbookmarks) {
+  + primary_key(id): int
+  + foreign_key(BookId): int
+  + foreign_key(UserId): int
+  + Location: varchar(255)
+  + CreatedAt: timestamp
+}
+
+table(tblratings) {
+  + primary_key(id): int
+  + foreign_key(BookId): int
+  + foreign_key(UserId): int
+  + Rating: int
+  + CreatedAt: timestamp
+}
+
+table(tblreviews) {
+  + primary_key(id): int
+  + foreign_key(BookId): int
+  + foreign_key(UserId): int
+  + Review: text
+  + Status: int
+  + CreatedAt: timestamp
+}
+
+' Relationships
+tblbooks "1" -- "0..*" tblreadinghistory : has >
+tblbooks "1" -- "0..*" tblbookmarks : has >
+tblbooks "1" -- "0..*" tblratings : receives >
+tblbooks "1" -- "0..*" tblreviews : has >
+tblusers "1" -- "0..*" tblreadinghistory : tracks >
+tblusers "1" -- "0..*" tblbookmarks : creates >
+tblusers "1" -- "0..*" tblratings : gives >
+tblusers "1" -- "0..*" tblreviews : writes >
+tblcategory "1" -- "0..*" tblbooks : categorizes >
+tblauthors "1" -- "0..*" tblbooks : writes >
+
+@enduml

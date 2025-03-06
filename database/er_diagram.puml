@@ -1,0 +1,97 @@
+@startuml ER Diagram
+
+!define ENTITY class
+!define RELATIONSHIP_ONE "1"
+!define RELATIONSHIP_MANY "*"
+
+hide methods
+hide stereotypes
+
+skinparam class {
+    BackgroundColor LightYellow
+    BorderColor Black
+    ArrowColor Black
+}
+
+ENTITY "User" as user {
+    + id (PK)
+    --
+    UserId
+    FullName
+    EmailId
+    Password
+    Status
+    RegDate
+}
+
+ENTITY "Book" as book {
+    + id (PK)
+    --
+    BookName
+    ISBNNumber
+    BookPrice
+    bookImage
+    epub_file_path
+    RegDate
+}
+
+ENTITY "Author" as author {
+    + id (PK)
+    --
+    AuthorName
+    creationDate
+}
+
+ENTITY "Category" as category {
+    + id (PK)
+    --
+    CategoryName
+    Status
+    CreationDate
+}
+
+ENTITY "ReadingHistory" as history {
+    + id (PK)
+    --
+    LastPage
+    ReadDate
+    Status
+}
+
+ENTITY "Bookmark" as bookmark {
+    + id (PK)
+    --
+    Location
+    CreatedAt
+}
+
+ENTITY "Rating" as rating {
+    + id (PK)
+    --
+    Rating
+    CreatedAt
+}
+
+ENTITY "Review" as review {
+    + id (PK)
+    --
+    Review
+    Status
+    CreatedAt
+}
+
+' Relationships
+user "1" -- "0..*" history : tracks >
+user "1" -- "0..*" bookmark : creates >
+user "1" -- "0..*" rating : gives >
+user "1" -- "0..*" review : writes >
+
+book "1" -- "0..*" history : has >
+book "1" -- "0..*" bookmark : contains >
+book "1" -- "0..*" rating : receives >
+book "1" -- "0..*" review : has >
+
+category "1" -- "0..*" book : categorizes >
+author "1" -- "0..*" book : writes >
+
+@enduml

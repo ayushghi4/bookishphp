@@ -1,0 +1,22 @@
+@startuml DFD Level 0
+
+!define PROCESS circle
+!define EXTERNAL_ENTITY rectangle
+!define DATA_STORE database
+
+skinparam roundCorner 15
+skinparam backgroundColor transparent
+skinparam componentStyle uml2
+
+EXTERNAL_ENTITY "Admin" as admin
+EXTERNAL_ENTITY "User" as user
+PROCESS "Bookish\nReading\nSystem" as system
+DATA_STORE "Database" as db
+
+admin --> system : Manage books, authors,\ncategories
+system --> admin : Admin reports,\nuser statistics
+user --> system : Register, login, read books,\nrate, review, bookmark
+system --> user : Book content, reading progress,\nbookmarks, recommendations
+system <--> db : Store/retrieve data
+
+@enduml

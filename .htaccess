@@ -1,0 +1,24 @@
+# Enable error reporting
+php_flag display_errors on
+php_value error_reporting E_ALL
+
+# Set EPUB MIME type
+AddType application/epub+zip .epub
+
+# Basic CORS settings
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Content-Length, Accept-Encoding"
+    
+    <FilesMatch "\.epub$">
+        Header set Content-Type "application/epub+zip"
+        Header set Content-Disposition "inline"
+    </FilesMatch>
+</IfModule>
+
+# Handle large files
+php_value upload_max_filesize 64M
+php_value post_max_size 64M
+php_value max_execution_time 300
+php_value max_input_time 300

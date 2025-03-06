@@ -1,0 +1,55 @@
+@startuml System Architecture
+
+!define RECTANGLE class
+
+skinparam componentStyle uml2
+skinparam component {
+  BackgroundColor<<UI>> LightBlue
+  BackgroundColor<<Logic>> LightGreen
+  BackgroundColor<<Data>> LightYellow
+}
+
+package "Presentation Layer" {
+  [User Interface] <<UI>>
+  [Admin Dashboard] <<UI>>
+  [Reading Interface] <<UI>>
+}
+
+package "Application Layer" {
+  [Authentication] <<Logic>>
+  [Book Management] <<Logic>>
+  [Reading System] <<Logic>>
+  [Rating & Review] <<Logic>>
+  [Bookmark System] <<Logic>>
+}
+
+package "Data Layer" {
+  database "MySQL Database" {
+    [User Data] <<Data>>
+    [Book Data] <<Data>>
+    [Reading History] <<Data>>
+    [Ratings & Reviews] <<Data>>
+    [Bookmarks] <<Data>>
+  }
+  folder "File Storage" {
+    [EPUB Files] <<Data>>
+    [Book Images] <<Data>>
+  }
+}
+
+' Dependencies
+[User Interface] --> [Authentication]
+[User Interface] --> [Reading System]
+[Admin Dashboard] --> [Book Management]
+[Reading Interface] --> [Reading System]
+[Reading Interface] --> [Bookmark System]
+
+[Authentication] --> [User Data]
+[Book Management] --> [Book Data]
+[Book Management] --> [EPUB Files]
+[Book Management] --> [Book Images]
+[Reading System] --> [Reading History]
+[Rating & Review] --> [Ratings & Reviews]
+[Bookmark System] --> [Bookmarks]
+
+@enduml

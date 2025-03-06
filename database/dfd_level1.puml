@@ -1,0 +1,46 @@
+@startuml DFD Level 1
+
+!define PROCESS circle
+!define EXTERNAL_ENTITY rectangle
+!define DATA_STORE database
+
+skinparam roundCorner 15
+skinparam backgroundColor transparent
+
+EXTERNAL_ENTITY "Admin" as admin
+EXTERNAL_ENTITY "User" as user
+
+' Main Processes
+PROCESS "1.0\nUser\nAuthentication" as auth
+PROCESS "2.0\nBook\nManagement" as book_mgmt
+PROCESS "3.0\nReading\nSystem" as reading
+PROCESS "4.0\nRating &\nReview" as rating
+PROCESS "5.0\nBookmark\nManagement" as bookmark
+
+' Data Stores
+DATA_STORE "Users" as users_db
+DATA_STORE "Books" as books_db
+DATA_STORE "Reading History" as history_db
+DATA_STORE "Ratings & Reviews" as ratings_db
+DATA_STORE "Bookmarks" as bookmarks_db
+
+' User flows
+user --> auth : Login/Register
+auth <--> users_db : Verify/Store
+user --> reading : Read books
+reading --> user : Book content
+user --> rating : Rate/Review books
+user --> bookmark : Add/Remove bookmarks
+
+' Admin flows
+admin --> auth : Admin login
+admin --> book_mgmt : Manage books/authors
+book_mgmt <--> books_db : Update/Query
+
+' Process connections
+reading <--> history_db : Track progress
+rating <--> ratings_db : Store feedback
+bookmark <--> bookmarks_db : Save positions
+reading <--> books_db : Fetch books
+
+@enduml
